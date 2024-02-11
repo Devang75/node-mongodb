@@ -6,6 +6,8 @@ import { GetAlluser } from "../../controller/user/GetAlluser.js";
 import { GetFindById } from "../../controller/user/GetFindById.js";
 import { UpdateUser } from "../../controller/user/UpdateUser.js";
 import { Deleteuser } from "../../controller/user/Deleteuser.js";
+import { uploadimage } from "../../controller/user/UploadImg.js";
+import { ChangePassword } from "../../controller/user/ChangePassword.js";
 
 export const UserRoute = express.Router();
 
@@ -56,3 +58,9 @@ UserRoute.delete(
   Validation,
   Deleteuser
 );
+
+UserRoute.post('/user/upload',Validation,async (req,res) => {
+  console.log(req.file);
+})
+
+UserRoute.post('/changepassword',Validation,ChangePassword)

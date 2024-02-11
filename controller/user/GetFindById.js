@@ -1,6 +1,7 @@
 import { UserDataRegis } from "../../model/UserModel.js";
 
 export const GetFindById = async (req,res) => {
+  console.log(req.query.id);
     UserDataRegis.findById(req.query.id)
     .then((user) => {
         if (!user) {
