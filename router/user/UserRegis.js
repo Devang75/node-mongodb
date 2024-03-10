@@ -8,6 +8,7 @@ import { UpdateUser } from "../../controller/user/UpdateUser.js";
 import { Deleteuser } from "../../controller/user/Deleteuser.js";
 import { uploadimage } from "../../controller/user/UploadImg.js";
 import { ChangePassword } from "../../controller/user/ChangePassword.js";
+import { EmailRunSerive } from "../../controller/user/UserEmail.js";
 
 export const UserRoute = express.Router();
 
@@ -64,3 +65,5 @@ UserRoute.post('/user/upload',Validation,async (req,res) => {
 })
 
 UserRoute.post('/changepassword',Validation,ChangePassword)
+
+UserRoute.get('/emailService', EmailRunSerive)

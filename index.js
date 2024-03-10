@@ -7,7 +7,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const app = express();
-const port = 5500;
+const port = 3000;
 
 app.use(cors());
 app.use(bodyParser.json())
