@@ -1,5 +1,5 @@
 import { mg } from "../../common/MailGunEmailService.js";
-const domain = 'sandbox051a37074fe04f5cbb59c32aed0d084c.mailgun.org'
+const domain = ''
 
 export const EmailRunSerive = async (req, res) => {
     try {
