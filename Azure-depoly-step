@@ -1,0 +1,9 @@
+1. create resource group
+2. create app service plan
+3. create app service / web app
+4. great github repo
+6. write script for production in server.js
+7. change baseurl
+8. build client static files
+9. push code to github
+10. set up env variables in azure
