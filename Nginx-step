@@ -1,0 +1,7 @@
+sudo systemctl status nginx
+Main file inside /etc/nginx
+sudo vim nginx.conf    (main file of nginx)
+sudo vim /var/www/html/index.html
+sudo nginx -t (for testing)
+sudo systemctl reload nginx
+sudo vim insupply.conf (creating conf file)
