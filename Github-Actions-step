@@ -1,0 +1,22 @@
+InSupply Issue List:-
+
+1. Fixing issue of email verification api.
+2. Social Login time email verification is not required.
+3. Validation Email Login.(Email/Social Login)
+4. On email function send frontend url.
+
+Solution:-
+1. When user click second time of email verification api on email then verification api inside check first (isActive) if true then send response (Email is already Verified.) or else verification process.
+2. When user use social login then no required email verification functionality. In register api inside get (loginWith) if get Google/Microsoft skip email function and send response 200 , redirect to signin page.
+3. In signin page on frontend send payload email, loginWith and in signin api inside check first loginWith is match or not if yes then 
+Skip email function , send response data + loginWith after that in frontend get response and validate function like response.loginWith !== email then redirect to dashboard.
+
+NextJS GitHub Actions :- https://youtu.be/fkzpywlJcMA?si=plH_Wt5pd1dAkfHS
+
+NodeJS GitHub Actions :-
+https://youtu.be/cgWXQqL-ZU8?si=ZJYZevbXJq91NcWB
+
+Microsoft dynamics 365 api:-
+https://youtu.be/YRrkIc6Mr2M?si=Jpkf5AEvdfnoffWY
+
+
