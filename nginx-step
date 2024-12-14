@@ -1,7 +1,7 @@
-https://gist.github.com/oelbaga/5019647715e68815c602ff05cff2416e#file-ubuntu-nextjs-nginx-config-file
-
-https://blog.logrocket.com/how-to-run-node-js-server-nginx/
-
-https://medium.com/bina-nusantara-it-division/how-to-deploy-your-next-js-apps-on-linux-server-using-nginx-and-pm2-65834cfecd37
-
-https://stackoverflow.com/questions/64386737/how-to-deploy-nextjs-with-nginx
+sudo systemctl status nginx
+Main file inside /etc/nginx
+sudo vim nginx.conf    (main file of nginx)
+sudo vim /var/www/html/index.html
+sudo nginx -t (for testing)
+sudo systemctl reload nginx
+sudo vim insupply.conf (creating conf file)
