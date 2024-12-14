@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
 
-const UserImageModal = new mongoose.Schema({
-    userImage : Object
+const { Schema, model } = mongoose;
+
+const UserImageSchema = new Schema({
+    userImage: { type: Schema.Types.Mixed, required: true }
 });
 
-export const UserImagesData = mongoose.model('userImages', UserImageModal);
+export const UserImagesData = model('UserImages', UserImageSchema);

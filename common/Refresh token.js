@@ -1,45 +1,45 @@
 const jwt = require('jsonwebtoken');
 const express = require('express');
 const router = express.Router();
-const User = require('../models/user'); // Your user model
-const RefreshToken = require('../models/refreshToken'); // Your refresh token model
+const User = require('../models/user');
+const RefreshToken = require('../models/refreshToken');
 
 // Function to generate tokens
-function generateTokens(user) {
-  const accessToken = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
-  const refreshToken = jwt.sign({ id: user._id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
-  return { accessToken, refreshToken };
-}
+const generateTokens = (userId) => ({
+  accessToken: jwt.sign({ id: userId }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' }),
+  refreshToken: jwt.sign({ id: userId }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' })
+});
 
 // Login route
 router.post('/login', async (req, res) => {
-  // Authenticate user...
-  const user = await User.findOne({ email: req.body.email });
-  // Generate tokens
-  const { accessToken, refreshToken } = generateTokens(user);
-  // Save refresh token in the database
-  await new RefreshToken({ token: refreshToken, user: user._id }).save();
-  // Send tokens to client
-  res.json({ accessToken, refreshToken });
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) return res.status(401).json({ message: 'Authentication failed' });
+
+    const { accessToken, refreshToken } = generateTokens(user._id);
+    await RefreshToken.create({ token: refreshToken, user: user._id });
+    res.json({ accessToken, refreshToken });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 // Refresh token route
 router.post('/refresh', async (req, res) => {
-  const { token } = req.body;
-  // Check if token exists in database
-  const storedToken = await RefreshToken.findOne({ token });
-  if (!storedToken) {
-    return res.status(403).json({ message: 'Refresh token is not in database!' });
+  try {
+    const { token } = req.body;
+    const storedToken = await RefreshToken.findOne({ token });
+    if (!storedToken) return res.status(403).json({ message: 'Refresh token is not in database!' });
+
+    jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+      if (err) return res.status(403).json({ message: 'Invalid refresh token!' });
+
+      const accessToken = jwt.sign({ id: user.id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
+      res.json({ accessToken });
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-  // Verify refresh token
-  jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-    if (err) {
-      return res.status(403).json({ message: 'Invalid refresh token!' });
-    }
-    // Generate new access token
-    const accessToken = jwt.sign({ id: user.id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
-    res.json({ accessToken });
-  });
 });
 
 module.exports = router;

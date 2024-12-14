@@ -1,9 +1,14 @@
 const jwt = require('jsonwebtoken');
-const secret = 'your_jwt_secret'; // Replace with your JWT secret
+const secret = process.env.JWT_SECRET; // Use environment variable for JWT secret
 
 // Middleware to verify token and check role
 const checkRole = (roles) => (req, res, next) => {
-  const token = req.headers.authorization.split(' ')[1]; // Get token from header
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).send('Unauthorized');
+  }
+
+  const token = authHeader.split(' ')[1]; // Get token from header
   jwt.verify(token, secret, (err, decoded) => {
     if (err) {
       return res.status(401).send('Unauthorized');
